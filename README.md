@@ -1,6 +1,6 @@
 # WataBuffalo
 videos of buffalo
-//This should be formatted
+This should be formatted
 ffmpeg -i (input mp4 video) -i (name of audio file want to overlay) -filter_complex amix=inputs=2 (output file .mp4)
 ffmpeg -i VfE_html5.mp4 -i festivalWave.wav -filter_complex amix=inputs=2 out2.mp4
 
