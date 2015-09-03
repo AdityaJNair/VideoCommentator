@@ -1,5 +1,9 @@
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
-public class DirectoriesFilesPanel extends JPanel{
+public class DirectoriesFilesPanel extends JFrame{
+	
+	public DirectoriesFilesPanel(){
+		
+	}
 
 }
