@@ -18,7 +18,7 @@ public class MenuPanel extends JMenuBar{
 		openFileMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				System.out.println("Open file");
+				VideoPanel.addVideo("test.mp4");
 			}
 		});
 		mediaMenu.add(openFileMenuItem);

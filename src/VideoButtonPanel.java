@@ -23,6 +23,9 @@ public class VideoButtonPanel extends JPanel implements ActionListener, ChangeLi
 	JButton addAudioButton  = new JButton("Add Audio");
 	JSlider volumeSlider = new JSlider(0,100,50);
 	EmbeddedMediaPlayer video;
+	
+	
+	
 	public VideoButtonPanel(EmbeddedMediaPlayer em){
 		video = em;
 		rewind.addActionListener(this);
@@ -56,38 +59,46 @@ public class VideoButtonPanel extends JPanel implements ActionListener, ChangeLi
 					.addComponent(play, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(fastForward, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(mute, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(mute, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
 					.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(volumeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_buttonPanel.createSequentialGroup()
-							.addGap(10)
+							.addComponent(volumeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(35))
+						.addGroup(gl_buttonPanel.createSequentialGroup()
+							.addGap(9)
 							.addComponent(minLABEL)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(maxLABEL)))
-					.addGap(58)
-					.addComponent(addAudioButton, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+							.addComponent(maxLABEL, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+							.addGap(39)))
+					.addComponent(addAudioButton, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+					.addGap(25))
 		);
 		gl_buttonPanel.setVerticalGroup(
-			gl_buttonPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_buttonPanel.createSequentialGroup()
+			gl_buttonPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_buttonPanel.createSequentialGroup()
 					.addGroup(gl_buttonPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(mute, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-						.addComponent(fastForward, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(rewind, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-						.addComponent(play, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_buttonPanel.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(addAudioButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGroup(Alignment.LEADING, gl_buttonPanel.createSequentialGroup()
-								.addGap(24)
+						.addGroup(gl_buttonPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(addAudioButton, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+							.addGroup(Alignment.TRAILING, gl_buttonPanel.createSequentialGroup()
+								.addGap(34)
 								.addComponent(volumeSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+								.addGap(18)
+								.addGroup(gl_buttonPanel.createParallelGroup(Alignment.BASELINE)
 									.addComponent(minLABEL)
 									.addComponent(maxLABEL))
-								.addGap(14))))
+								.addGap(3)
+								.addGap(3))
+							.addGroup(gl_buttonPanel.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(fastForward, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+									.addComponent(play, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+									.addComponent(rewind, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+									.addComponent(mute, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))))
 					.addContainerGap())
 		);
 		this.setLayout(gl_buttonPanel);

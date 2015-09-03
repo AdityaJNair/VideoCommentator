@@ -7,17 +7,19 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 
 public class VideoPanel extends JPanel {
-	private final EmbeddedMediaPlayerComponent mediaPlayerComponent;
-	
+	private final static EmbeddedMediaPlayerComponent MEDIAPLAYERCOMPONENT = new EmbeddedMediaPlayerComponent();
+	private final static EmbeddedMediaPlayer VIDEO = MEDIAPLAYERCOMPONENT.getMediaPlayer();
+
 	public VideoPanel(){
-		mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
-
-        final EmbeddedMediaPlayer video = mediaPlayerComponent.getMediaPlayer();
-        
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(mediaPlayerComponent, BorderLayout.CENTER);
-
+        panel.add(MEDIAPLAYERCOMPONENT, BorderLayout.CENTER);
 	}
 	
-	
+	public static void addVideo(String videoName){
+		VIDEO.playMedia("test.mp4");
+	}
+
+	public static EmbeddedMediaPlayer getMediaPlayer() {
+		return VIDEO;
+	}
 }
