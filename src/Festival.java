@@ -81,26 +81,14 @@ public class Festival extends SwingWorker {
 		}
 	}
 
-	//text2wave (textfile) -o (output file.wav)
+	//Bash command : text2wave (textfile) -o (output file.wav)
 	
 	@Override
 	protected Object doInBackground() throws Exception {
 		try {
-			String cmd = "text2wave" + textFile + "-o" + outputFileName;
+			String cmd = "text2wave " + textFile + " -o " + outputFileName + ".txt";
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			process = builder.start();
-			if (cancel) {
-				cmd = "pstree -p | grep festival";
-				builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-				process = builder.start();
-				InputStream out = process.getInputStream();
-				BufferedReader stdout = new BufferedReader(
-						new InputStreamReader(out));
-				String line = null;
-				while ((line = stdout.readLine()) != null) {
-					System.out.println(line);
-				}
-			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
