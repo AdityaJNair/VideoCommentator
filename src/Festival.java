@@ -15,27 +15,33 @@ public class Festival extends SwingWorker {
 	private ProcessBuilder builder;
 	private String cmd;
 	private Process process;
-	private String inputFileName;
-	private String outputFileName;
+	private String fileName;
 	private File textFile = null;
 
+	/**
+	 * Creates a new Festival object
+	 * @param comment
+	 * @param fileName - name of the .wav file created by the process.
+	 */
 	Festival(String comment, String fileName) {
 		this.comment = comment;
-		createFile(fileName);
+		this.fileName = fileName;
+		createFile(fileName + ".txt");
 	}
 	
 	Festival (File textFile){
+		this.fileName = textFile.getName();
 		this.textFile = textFile;
 	}
 	
 	/**
 	 * Creates a text file from the comment.
-	 * @param fileName
+	 * @param fileName.txt
 	 */
 	private void createFile(String fileName){
 		File file = new File(fileName);
 		try {
-			FileWriter fileWriter = new FileWriter(file + ".txt");
+			FileWriter fileWriter = new FileWriter(file);
 			fileWriter.write(this.comment);
 			fileWriter.flush();
 			fileWriter.close();
@@ -80,13 +86,12 @@ public class Festival extends SwingWorker {
 			e.printStackTrace();
 		}
 	}
-
-	//Bash command : text2wave (textfile) -o (output file.wav)
 	
 	@Override
 	protected Object doInBackground() throws Exception {
 		try {
-			String cmd = "text2wave " + textFile + " -o " + outputFileName + ".txt";
+			String cmd = "text2wave " + fileName + ".txt" +" -o " + fileName + ".wav";
+			System.out.println(cmd);
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			process = builder.start();
 		} catch (Exception ex) {
