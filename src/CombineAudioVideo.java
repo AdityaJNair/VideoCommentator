@@ -1,15 +1,14 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 
-public class CombineAudioVideo extends SwingWorker {
+/**
+ * CombineAudioVideo adds audio to video files and saves it as a separate mp4 file.
+ * @author Adi Nair, Priyankit Singh
+ *
+ */
+public class CombineAudioVideo extends SwingWorker<Void, Void> {
 
 	private ProcessBuilder builder;
 	private String cmd;
@@ -21,8 +20,9 @@ public class CombineAudioVideo extends SwingWorker {
 	/**
 	 * Creates a new CombineAudioVideo object
 	 * 
-	 * @param fileName
-	 *            - name of the .wav file created by the process.
+	 * @param audioFileName - Name of the audio file to be added to the video.
+	 * @param videoFileName - Name of the video file.
+	 *            
 	 */
 	CombineAudioVideo(String audioFileName, String videoFileName) {
 		this.audioFileName = audioFileName;
@@ -30,9 +30,9 @@ public class CombineAudioVideo extends SwingWorker {
 	}
 
 	@Override
-	protected Object doInBackground() throws Exception {
+	protected Void doInBackground() throws Exception {
 		createDialog();
-		String cmd = "ffmpeg -i " + videoFileName + " -i " + audioFileName
+		cmd = "ffmpeg -i " + videoFileName + " -i " + audioFileName
 				+ " -filter_complex amix=inputs=2 out.mp4";
 		System.out.println(cmd);
 		builder = new ProcessBuilder("/bin/bash", "-c", cmd);
@@ -49,10 +49,12 @@ public class CombineAudioVideo extends SwingWorker {
 	@Override
 	protected void done() {
 		dialog.setVisible(false);
-		System.out.println("Done something");
 		// setVideo(path of output file)
 	}
 
+	/**
+	 * Creates a dialog box to ask the users to wait for the process to finish.
+	 */
 	protected void createDialog() {
 		dialog = new JDialog();
 		dialog.setBounds(500, 500, 150,100);

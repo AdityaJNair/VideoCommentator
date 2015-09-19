@@ -12,11 +12,19 @@ import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+/**
+ * Frame that lets users create text comments, demonstrate them and add them to a video.
+ * @author Adi Nair, Priyankit Singh
+ *
+ */
 public class TextToAudioFrame {
 
 	private JFrame frame;
 	public Festival test;
 
+	/**
+	 * Creates a TextToAudioFrame object.
+	 */
 	public TextToAudioFrame() {
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {

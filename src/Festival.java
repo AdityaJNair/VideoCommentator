@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
-public class Festival extends SwingWorker {
+/**
+ * Festival creates speech from Strings.
+ * @author Adi Nair, Priyankit Singh
+ *
+ */
+public class Festival extends SwingWorker<Void, Void> {
 
 	public String string;
 	public boolean cancel = false;
@@ -17,10 +19,17 @@ public class Festival extends SwingWorker {
 	private String cmd;
 	private Process process;
 	
+	/**
+	 * Creates a Festival object.
+	 * @param string - The string to be converted to speech.
+	 */
 	Festival(String string) {
 		this.string = string;
 	}
 
+	/**
+	 * Stops the speech.
+	 */
 	public void cancelThread() {
 
 		this.cancel = true;
@@ -62,8 +71,9 @@ public class Festival extends SwingWorker {
 		System.out.println("cancelled");
 	}
 
+	
 	@Override
-	protected Object doInBackground() throws Exception {
+	protected Void doInBackground() throws Exception {
 		try {
 			String cmd = "echo " + string + " | festival --tts";
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
@@ -79,6 +89,10 @@ public class Festival extends SwingWorker {
 		return null;
 	}
 
+	/**
+	 * Cancels the speech.
+	 *
+	 */
 	class cancelFestival extends SwingWorker<Void, Void>{
 
 		@Override
@@ -123,7 +137,6 @@ public class Festival extends SwingWorker {
 			System.out.println("cancelled");
 			return null;
 		}
-		
 	}
 	
 }

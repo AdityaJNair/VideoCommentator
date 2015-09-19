@@ -13,11 +13,20 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+/**
+ * A frame that lets users choose between adding existing audio file or create new file 
+ * to the video.
+ * @author Adi Nair, Priyankit Singh
+ *
+ */
 public class SwitchDialogBox implements ActionListener{
 	private JFrame frame;
 	private JButton addExistingAudioButton;
 	private JButton audioTextButton; 
 	
+	/**
+	 * Creates a SwitchDialogBox object.
+	 */
 	SwitchDialogBox(){
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -71,6 +80,7 @@ public class SwitchDialogBox implements ActionListener{
 		frame.setVisible(true);
 		
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addExistingAudioButton){

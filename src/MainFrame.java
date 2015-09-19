@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.File;
@@ -15,7 +16,13 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 
+/**
+ * The main frame that contains the video player.
+ * @author Adi Nair, Priyankit Singh
+ *
+ */
 public class MainFrame {
+	
 	private JFrame frame;
 	private static EmbeddedMediaPlayerComponent mediaPlayerComponent;
     private static EmbeddedMediaPlayer video;
@@ -60,10 +67,16 @@ public class MainFrame {
 		});
 	}
 
+	/**
+	 * Creates a new MainFrame object.
+	 */
 	public MainFrame() {
 		initialize();
 	}
 
+	/**
+	 * Initializes the Frame
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setSize(900, 700);
@@ -85,13 +98,17 @@ public class MainFrame {
 		frame.setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * Sets the video to be played in the media player
+	 * @param file - Video file to be player in the player.
+	 */
 	public static void setVideo(File file){
 		try{
 		String fileName = file.getAbsolutePath();
 		videoName = fileName;
 		System.out.println(videoName);
 		video.playMedia(fileName);
-		} catch (NullPointerException pointe){
+		} catch (NullPointerException pointer){
 			
 		}
 	}

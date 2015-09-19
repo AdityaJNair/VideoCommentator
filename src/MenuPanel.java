@@ -8,9 +8,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-
+/**
+ * A menu bar that lets users navigate the program.
+ * @author Adi Nair, Priyankit Singh
+ *
+ */
 public class MenuPanel extends JMenuBar{
-	//the menu and its listeners
+	
+	/**
+	 * Creates a MenuPanel object.
+	 */
 	public MenuPanel(){
 		JMenu mediaMenu = new JMenu("Media");
 		this.add(mediaMenu);
@@ -53,9 +60,6 @@ public class MenuPanel extends JMenuBar{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				System.out.println("festival");
-				
-				
-				
 			}
 		});
 		featuresMenu.add(createFestivalMenuItem);
@@ -100,7 +104,6 @@ public class MenuPanel extends JMenuBar{
 				try {
 					pb.start();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

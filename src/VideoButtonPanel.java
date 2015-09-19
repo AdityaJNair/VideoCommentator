@@ -17,6 +17,11 @@ import javax.swing.event.ChangeListener;
 
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
+/**
+ * Panel containing video controls like Play, Pause, Volume controls and a Video Progress bar.
+ * @author pb tech
+ *
+ */
 public class VideoButtonPanel extends JPanel{
 	private JButton rewind;
 	private JButton play;
@@ -30,6 +35,10 @@ public class VideoButtonPanel extends JPanel{
 	private boolean fwd = false;
 	private boolean bak = false;
 
+	/**
+	 * Creates a VideoButtonPanel.
+	 * @param em - The video to be controlled by the panel.
+	 */
 	public VideoButtonPanel(EmbeddedMediaPlayer em) {
 		video = em;
 		rewind = new JButton("<<");
@@ -179,7 +188,10 @@ public class VideoButtonPanel extends JPanel{
 		this.setLayout(gl_buttonPanel);
 	}
 
-
+	/**
+	 * Controls time elements like progress bar and video length label.
+	 *
+	 */
 	class TimerWorker extends SwingWorker<Void,Void>{
 
 		@Override
@@ -203,6 +215,10 @@ public class VideoButtonPanel extends JPanel{
 		
 	}
 	
+	/**
+	 * Controls the video progress controls like fast forward, rewind and pause
+	 *
+	 */
 	class ProgressBarWorker extends SwingWorker<Void, Void>{
 		
 		@Override
@@ -250,7 +266,6 @@ public class VideoButtonPanel extends JPanel{
 			video.play();
 			
 		}
-		
 		
 	}
 }
