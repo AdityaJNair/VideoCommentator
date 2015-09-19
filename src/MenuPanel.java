@@ -1,11 +1,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.JOptionPane;
 
 
 public class MenuPanel extends JMenuBar{
@@ -18,7 +19,10 @@ public class MenuPanel extends JMenuBar{
 		openFileMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				VideoPanel.addVideo("test.mp4");
+				FileChooser fc = new FileChooser("Video files", "mp4", "avi");
+				File videoFile = fc.chooseFile();
+
+				MainFrame.setVideo(videoFile);
 			}
 		});
 		mediaMenu.add(openFileMenuItem);
@@ -27,7 +31,7 @@ public class MenuPanel extends JMenuBar{
 		addAudioMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				System.out.println("add audio");
+				SwitchDialogBox s = new SwitchDialogBox();
 			}
 		});
 		mediaMenu.add(addAudioMenuItem);
@@ -36,7 +40,7 @@ public class MenuPanel extends JMenuBar{
 		quitMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				System.out.println("quit");
+				System.exit(0);
 			}
 		});
 		mediaMenu.add(quitMenuItem);
@@ -49,6 +53,9 @@ public class MenuPanel extends JMenuBar{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				System.out.println("festival");
+				
+				
+				
 			}
 		});
 		featuresMenu.add(createFestivalMenuItem);
@@ -57,19 +64,45 @@ public class MenuPanel extends JMenuBar{
 		addExistingAudioMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				System.out.println("add existing audio");
+				if(MainFrame.videoName == null){
+					JOptionPane.showMessageDialog(null,
+						    "Please select a valid video file before continuing",
+						    "OK",
+						    JOptionPane.OK_OPTION);
+					FileChooser fc = new FileChooser("Video files", "mp4","avi");
+					File videoFile = fc.chooseFile();
+					MainFrame.setVideo(videoFile);
+				}
+				if(MainFrame.videoName != null){
+					JOptionPane.showMessageDialog(null,
+						    "Please select a audio file to add on the video you selected",
+						    "OK",
+						    JOptionPane.OK_OPTION);
+					FileChooser fc = new FileChooser("Audio Files", ".mp3");
+					File audioFile = fc.chooseFile();
+					String path = audioFile.getAbsolutePath();
+					System.out.println(path);
+					CombineAudioVideo combine = new CombineAudioVideo(path, MainFrame.videoName);
+					combine.execute();
+				}
 			}
 		});
 		featuresMenu.add(addExistingAudioMenuItem);
 		
-		JMenu subtitlesMenu = new JMenu("Subtitles");
+		JMenu subtitlesMenu = new JMenu("Help");
 		this.add(subtitlesMenu);
 		
-		JMenuItem addSubMenuItem = new JMenuItem("Add Subtitles");
+		JMenuItem addSubMenuItem = new JMenuItem("READ ME");
 		addSubMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				System.out.println("add subs");
+				ProcessBuilder pb = new ProcessBuilder("gedit", "README");
+				try {
+					pb.start();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		subtitlesMenu.add(addSubMenuItem);
