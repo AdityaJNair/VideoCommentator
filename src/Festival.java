@@ -3,6 +3,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.SwingWorker;
 
@@ -31,44 +33,8 @@ public class Festival extends SwingWorker<Void, Void> {
 	 * Stops the speech.
 	 */
 	public void cancelThread() {
-
-		this.cancel = true;
-		//cmd = "pstree -lp | grep bash";
-		cmd = "pgrep play";
-		builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-		try {
-			process = builder.start();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		InputStream out = process.getInputStream();
-		BufferedReader stdout = new BufferedReader(new InputStreamReader(out));
-		String line = null;
-		try {
-			line = stdout.readLine();
-			int num = line.lastIndexOf("play");
-			String pidString = line.substring((num + 6), (num + 14));
-			String[] Array = pidString.split(")");
-			
-			try {
-				int pid = Integer.parseInt(pidString);
-				cmd = "kill " + Array[0]; 
-				builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-				process = builder.start();
-			} catch (Exception e) {
-				return;
-			}
-			System.out.println(pidString);
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			process = builder.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("cancelled");
+		CancelFestival c = new CancelFestival();
+		c.execute();
 	}
 
 	
@@ -78,6 +44,7 @@ public class Festival extends SwingWorker<Void, Void> {
 			String cmd = "echo " + string + " | festival --tts";
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			process = builder.start();
+			Thread.sleep(500);
 			if (cancel) {
 				cmd = "pstree -p | grep festival";
 				builder = new ProcessBuilder("/bin/bash", "-c", cmd);
@@ -88,18 +55,19 @@ public class Festival extends SwingWorker<Void, Void> {
 		}
 		return null;
 	}
-
+	@Override
+	protected void done(){
+	}
 	/**
 	 * Cancels the speech.
 	 *
 	 */
-	class cancelFestival extends SwingWorker<Void, Void>{
+	class CancelFestival extends SwingWorker<Void, Void>{
 
 		@Override
 		protected Void doInBackground() throws Exception {
 			cancel = true;
-			//cmd = "pstree -lp | grep bash";
-			cmd = "pgrep play";
+			cmd = "pstree -lp | grep bash";
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			try {
 				process = builder.start();
@@ -111,21 +79,17 @@ public class Festival extends SwingWorker<Void, Void> {
 			String line = null;
 			try {
 				line = stdout.readLine();
-				//int num = line.lastIndexOf("play");
-				//String pidString = line.substring((num + 6), (num + 14));
-				//String[] Array = pidString.split(")");
-				
+				Matcher match = Pattern.compile("\\((.*?)\\)").matcher(line.substring(line.lastIndexOf("play")));
+				match.find();
+				System.out.println(match.group(1));
+				int pid = Integer.parseInt(match.group(1));
 				try {
-					int pid = Integer.parseInt(line/*pidString*/);
-					//cmd = "kill " + Array[0];
 					cmd = "kill " + pid;
 					builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 					process = builder.start();
 				} catch (Exception e) {
 					return null;
 				}
-				System.out.println(line);
-
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -134,11 +98,14 @@ public class Festival extends SwingWorker<Void, Void> {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("cancelled");
 			return null;
+		}
+		
+		@Override
+		protected void done(){
 		}
 	}
 	
-}
 
+}
 
