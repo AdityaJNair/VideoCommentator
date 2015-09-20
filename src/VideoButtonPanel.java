@@ -197,8 +197,11 @@ public class VideoButtonPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if(video.isPlaying()){
 					videoScroll.setEnabled(true);
+					play.setIcon(pauseIcon);
 					TimerWorker time = new TimerWorker();
 					time.execute();
+				} else {
+					play.setIcon(playIcon);
 				}
 			}
 		});

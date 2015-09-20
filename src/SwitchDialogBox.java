@@ -85,9 +85,9 @@ public class SwitchDialogBox implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addExistingAudioButton){
 			if(MainFrame.videoName == null){
-				JOptionPane.showMessageDialog(frame,
+				JOptionPane.showMessageDialog(null,
 					    "Please select a valid video file before continuing",
-					    "OK",
+					    "Video File Selection",
 					    JOptionPane.OK_OPTION);
 				FileChooser fc = new FileChooser("Video files", "mp4","avi");
 				File videoFile = fc.chooseFile();
@@ -96,12 +96,16 @@ public class SwitchDialogBox implements ActionListener{
 			if(MainFrame.videoName != null){
 				JOptionPane.showMessageDialog(null,
 					    "Please select a audio file to add on the video you selected",
-					    "OK",
+					    "Audio File Selection",
 					    JOptionPane.OK_OPTION);
 				FileChooser fc = new FileChooser("Audio Files", "mp3","wav");
 				try{
 				File audioFile = fc.chooseFile();
 				String path = audioFile.getAbsolutePath();
+				JOptionPane.showMessageDialog(null,
+					    "Select the location where you want to save the merged file",
+					    "Merged File Saving Location",
+					    JOptionPane.OK_OPTION);
 				System.out.println(path);
 				SaveAs sa = new SaveAs();
 				String outputPath = sa.getSelectionPath();
