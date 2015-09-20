@@ -33,10 +33,10 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() throws Exception {
 		SaveAs sa = new SaveAs();
-		String path = sa.getSelectionPath();
+		outputPath = sa.getSelectionPath();
 		createDialog();
 		cmd = "ffmpeg -i " + videoFileName + " -i " + audioFileName
-				+ " -filter_complex amix=inputs=2 " + path;
+				+ " -filter_complex amix=inputs=2 " + outputPath;
 		System.out.println(cmd);
 		builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 		try {
