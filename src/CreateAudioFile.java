@@ -68,7 +68,9 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	protected void done(){
 		dialog.setVisible(false);
 		String videoName = MainFrame.videoName;
-		CombineAudioVideo combine = new CombineAudioVideo(fileName + ".wav", videoName);
+		SaveAs sa = new SaveAs();
+		String outputPath = sa.getSelectionPath();
+		CombineAudioVideo combine = new CombineAudioVideo(fileName + ".wav",videoName,outputPath);
 		combine.execute();
 	}
 

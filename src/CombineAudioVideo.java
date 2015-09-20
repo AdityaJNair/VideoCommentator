@@ -25,26 +25,33 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 	 * @param videoFileName - Name of the video file.
 	 *            
 	 */
-	CombineAudioVideo(String audioFileName, String videoFileName) {
+	CombineAudioVideo(String audioFileName, String videoFileName, String outputP) {
 		this.audioFileName = audioFileName;
 		this.videoFileName = videoFileName;
+		this.outputPath = outputP;
 	}
 
 	@Override
 	protected Void doInBackground() throws Exception {
-		SaveAs sa = new SaveAs();
-		outputPath = sa.getSelectionPath();
 		createDialog();
-		cmd = "ffmpeg -i " + videoFileName + " -i " + audioFileName
-				+ " -filter_complex amix=inputs=2 " + outputPath;
-		System.out.println(cmd);
-		builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-		try {
-			process = builder.start();
-			process.waitFor();
-			System.out.println(process.exitValue());
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		System.out.println("HERE");
+		if(outputPath != null ){
+			dialog.setVisible(true);
+			/*
+			 * user this one 
+			cmd = "ffmpeg -i \"" + videoFileName + "\" -i \"" + audioFileName
+			+ "\" -filter_complex amix=inputs=2 " + outputPath;*/
+			cmd = "ffmpeg -i \"" + videoFileName + "\" -i \"" + audioFileName
+					+ "\" -strict -2 -filter_complex amix=inputs=2 " + "\""+outputPath+ "\"";
+			System.out.println(cmd);
+			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+			try {
+				process = builder.start();
+				process.waitFor();
+				System.out.println(process.exitValue());
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -66,6 +73,6 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 		dialog.setLocationRelativeTo(null);
 		dialog.setTitle("Please Wait...");
 		dialog.add(label);
-		dialog.setVisible(true);
+		dialog.setVisible(false);
 	}
 }

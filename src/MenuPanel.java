@@ -82,12 +82,18 @@ public class MenuPanel extends JMenuBar{
 						    "Please select a audio file to add on the video you selected",
 						    "OK",
 						    JOptionPane.OK_OPTION);
-					FileChooser fc = new FileChooser("Audio Files", ".mp3");
+					FileChooser fc = new FileChooser("Audio Files", "mp3","wav");
+					try{
 					File audioFile = fc.chooseFile();
 					String path = audioFile.getAbsolutePath();
 					System.out.println(path);
-					CombineAudioVideo combine = new CombineAudioVideo(path, MainFrame.videoName);
+					SaveAs sa = new SaveAs();
+					String outputPath = sa.getSelectionPath();
+					CombineAudioVideo combine = new CombineAudioVideo(path, MainFrame.videoName,outputPath);
 					combine.execute();
+					} catch (NullPointerException e3){
+						
+					}
 				}
 			}
 		});
