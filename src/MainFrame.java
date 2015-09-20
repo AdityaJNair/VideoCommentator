@@ -83,6 +83,7 @@ public class MainFrame {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setTitle("Video Player A3");
 		frame.setVisible(true);
 		mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 		video = mediaPlayerComponent.getMediaPlayer();
@@ -104,10 +105,10 @@ public class MainFrame {
 	 */
 	public static void setVideo(File file){
 		try{
-		String fileName = file.getAbsolutePath();
-		videoName = fileName;
-		System.out.println(videoName);
-		video.playMedia(fileName);
+			String fileName = file.getAbsolutePath();
+			videoName = fileName;
+			System.out.println(videoName);
+			video.playMedia(fileName);
 		} catch (NullPointerException pointer){
 			
 		}
