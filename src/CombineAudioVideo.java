@@ -1,4 +1,6 @@
 
+import java.io.File;
+
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -59,6 +61,12 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 	@Override
 	protected void done() {
 		dialog.setVisible(false);
+		//shows file when done
+		try{
+			File merged = new File(outputPath);
+			MainFrame.setVideo(merged);
+		} catch (Exception e){
+		}
 		// setVideo(path of output file)
 	}
 
