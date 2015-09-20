@@ -113,7 +113,7 @@ public class TextToAudioFrame {
 				String[] stringList = textPane.getText().split(" ");
 				if ( textFromUser.length() <= 160 && stringList.length < 25 ) {
 					if (buttonDemonstrate.getText().equals("DEMONSTRATE")) {
-						buttonDemonstrate.setText("Cancel");
+						buttonDemonstrate.setText("CANCEL");
 						test = new Festival(textFromUser);
 						test.execute();
 					} else {

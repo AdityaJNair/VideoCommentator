@@ -1,12 +1,17 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JSlider;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
@@ -30,36 +35,71 @@ public class VideoButtonPanel extends JPanel{
 	private JButton addAudioButton;
 	private JSlider volumeSlider;
 	private EmbeddedMediaPlayer video;
-	private JProgressBar progressBar;
-	private final JLabel lblNewLabel;
+	private JSlider videoScroll;
+	private final JLabel timeLabel;
 	private boolean fwd = false;
 	private boolean bak = false;
+	private boolean mouseClickedToScroller = false;
+	private Icon playIcon;
 
 	/**
 	 * Creates a VideoButtonPanel.
 	 * @param em - The video to be controlled by the panel.
 	 */
-	public VideoButtonPanel(EmbeddedMediaPlayer em) {
-		video = em;
-		rewind = new JButton("<<");
-		play = new JButton("►");
-		fastForward = new JButton(">>");
-		addAudioButton = new JButton("\"TXT\" --> ♫");
+	public VideoButtonPanel(EmbeddedMediaPlayer emplayer) {
+		//icons from  - http://www.iconarchive.com/show/audio-video-outline-icons-by-danieledesantis.html
+		Icon audioIcon = new ImageIcon("audio-icon.png");
+		Icon muteIcon = new ImageIcon("audio-off-icon.png");
+		Icon forwardIcon = new ImageIcon("forward-icon.png");
+		Icon pauseIcon = new ImageIcon("pause-icon.png");
+		playIcon = new ImageIcon("play-icon.png");
+		Icon rewindIcon = new ImageIcon("rewind-icon.png");
+		Icon textIcon = new ImageIcon("text2speech-icon.png");
+		video = emplayer;
+		rewind = new JButton(rewindIcon);
+		play = new JButton(playIcon);
+		fastForward = new JButton(forwardIcon);
+		addAudioButton = new JButton(textIcon);
 		volumeSlider = new JSlider(0, 100, 50);
-		mute = new JButton("🔊");
+		mute = new JButton(audioIcon);
+		videoScroll = new JSlider(0,10000);
+		JLabel minLABEL = new JLabel("MIN");
+		JLabel maxLABEL = new JLabel("MAX");
+		timeLabel = new JLabel("HH:MM:SS");
 		
-		JLabel minLABEL = new JLabel("♩");
+		videoScroll.putClientProperty( "Slider.paintThumbArrowShape", Boolean.TRUE );
 		minLABEL.setEnabled(false);
-
-		JLabel maxLABEL = new JLabel("♬");
 		maxLABEL.setEnabled(false);
+		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);	
+		videoScroll.setValue(0);
+		videoScroll.setEnabled(false);
+		videoScroll.addMouseListener(new MouseAdapter(){
+			@Override
+            public void mousePressed(MouseEvent e) {
+              if(!video.isPlayable()){
+            	  return;
+              }
+              if(video.isPlaying()){
+            	  mouseClickedToScroller = true;
+            	  video.pause();
+              } else {
+            	  mouseClickedToScroller = false;
+              }
+            }
 
-		progressBar = new JProgressBar(0,1000);
-
-		lblNewLabel = new JLabel("0m 0s|0m 0s");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);		
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	videoScroll.setValue(videoScroll.getValue());
+            	float videoTimeRatio =  (((float)videoScroll.getValue())/((float)videoScroll.getMaximum()));
+				long currentTimeNew = (long) (video.getLength() * videoTimeRatio);
+				video.setTime(currentTimeNew);
+				video.play();
+				mouseClickedToScroller = false;
+            }
+			
+		});
 		
-
+		
 		//REWIND
 		rewind.addActionListener(new ActionListener(){
 			@Override
@@ -86,10 +126,10 @@ public class VideoButtonPanel extends JPanel{
 				rewind.setEnabled(true);
 				if (video.isPlaying()) {
 					video.pause();
-					play.setText("►");
+					play.setIcon(playIcon);
 				} else {
 					video.play();
-					play.setText("||");
+					play.setIcon(pauseIcon);
 				}
 			}
 
@@ -126,6 +166,11 @@ public class VideoButtonPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				volumeSlider.setValue(0);
 				video.mute();
+				if(volumeSlider.getValue() == 0){
+					mute.setIcon(muteIcon);
+				} else {
+					mute.setIcon(audioIcon);
+				}
 			}
 
 		});
@@ -135,9 +180,13 @@ public class VideoButtonPanel extends JPanel{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 					if (!volumeSlider.getValueIsAdjusting()) {
-						System.out.println(volumeSlider.getValue());
 						video.mute(false);
 						video.setVolume(volumeSlider.getValue());
+						if(volumeSlider.getValue() == 0){
+							mute.setIcon(muteIcon);
+						} else {
+							mute.setIcon(audioIcon);
+						}
 					}
 				}
 		});
@@ -146,8 +195,11 @@ public class VideoButtonPanel extends JPanel{
 		Timer t = new Timer(200, new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TimerWorker time = new TimerWorker();
-				time.execute();
+				if(video.isPlaying()){
+					videoScroll.setEnabled(true);
+					TimerWorker time = new TimerWorker();
+					time.execute();
+				}
 			}
 		});
 		t.start();
@@ -157,9 +209,9 @@ public class VideoButtonPanel extends JPanel{
 		GroupLayout gl_buttonPanel = new GroupLayout(this);
 		gl_buttonPanel.setHorizontalGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_buttonPanel.createSequentialGroup()
 			.addContainerGap().addGroup(gl_buttonPanel.createParallelGroup(Alignment.TRAILING,false).addGroup(
-				gl_buttonPanel.createSequentialGroup().addComponent(lblNewLabel,GroupLayout.DEFAULT_SIZE,
+				gl_buttonPanel.createSequentialGroup().addComponent(timeLabel,GroupLayout.DEFAULT_SIZE,
 					GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(progressBar,GroupLayout.PREFERRED_SIZE,726,GroupLayout.PREFERRED_SIZE)).addGroup(
+						.addComponent(videoScroll,GroupLayout.PREFERRED_SIZE,726,GroupLayout.PREFERRED_SIZE)).addGroup(
 							gl_buttonPanel.createSequentialGroup().addComponent(rewind,GroupLayout.PREFERRED_SIZE,
 								93,GroupLayout.PREFERRED_SIZE).addGap(18).addComponent(play,GroupLayout.PREFERRED_SIZE,
 									99,GroupLayout.PREFERRED_SIZE).addGap(18).addComponent(fastForward,GroupLayout.PREFERRED_SIZE,
@@ -175,8 +227,8 @@ public class VideoButtonPanel extends JPanel{
 		
 		gl_buttonPanel.setVerticalGroup(gl_buttonPanel.createParallelGroup(Alignment.TRAILING).addGroup(gl_buttonPanel
 			.createSequentialGroup().addGap(14).addGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING).addComponent(
-				progressBar,GroupLayout.PREFERRED_SIZE,GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE).addComponent(
-					lblNewLabel)).addPreferredGap(ComponentPlacement.RELATED, 16,Short.MAX_VALUE).addGroup(gl_buttonPanel
+				videoScroll,GroupLayout.PREFERRED_SIZE,GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE).addComponent(
+					timeLabel)).addPreferredGap(ComponentPlacement.RELATED, 16,Short.MAX_VALUE).addGroup(gl_buttonPanel
 						.createParallelGroup(Alignment.TRAILING,false).addComponent(addAudioButton,GroupLayout.DEFAULT_SIZE,
 							GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addComponent(mute,GroupLayout.DEFAULT_SIZE,GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).addGroup(gl_buttonPanel.createSequentialGroup().addComponent(volumeSlider,GroupLayout.PREFERRED_SIZE,
@@ -192,20 +244,29 @@ public class VideoButtonPanel extends JPanel{
 	 * Controls time elements like progress bar and video length label.
 	 *
 	 */
-	class TimerWorker extends SwingWorker<Void,Void>{
+	class TimeScroller{
+		public int time;
+		public String str;
+		TimeScroller(int t, String s){
+			this.time = t;
+			this.str = s;
+		}
+	}
+	
+	class TimerWorker extends SwingWorker<Void,TimeScroller>{
 
 		@Override
 		protected Void doInBackground() throws Exception {
 			try{
+				
+				
 				long timeCurrent = video.getTime()/1000;
 				long videoLength = video.getLength()/1000;
-				double timeHolder = (double)timeCurrent/videoLength*1000;
+				double timeHolder = ((double)timeCurrent)/((double)videoLength)*10000;
 				if(videoLength/60 == -1){
-					lblNewLabel.setText("0m 0s|0m 0s");
-					progressBar.setValue(0);
+					publish(new TimeScroller(0,"00:00:00"));
 				} else {
-					lblNewLabel.setText(timeCurrent/60+"m "+timeCurrent%60+"s|"+videoLength/60+"m "+videoLength%60+"s");
-					progressBar.setValue((int) timeHolder);
+					publish(new TimeScroller((int) timeHolder,String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(video.getTime()), TimeUnit.MILLISECONDS.toMinutes(video.getTime()) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(video.getTime())), TimeUnit.MILLISECONDS.toSeconds(video.getTime()) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(video.getTime())))));
 				}
 			} catch (Exception time){
 				System.out.println("Video hasnt loaded yet");
@@ -213,6 +274,15 @@ public class VideoButtonPanel extends JPanel{
 			return null;
 		}
 		
+		@Override
+		protected void process(List<TimeScroller> chunks){
+			for(TimeScroller s: chunks){
+				if(!mouseClickedToScroller){
+					videoScroll.setValue(s.time);
+					timeLabel.setText(s.str);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -264,7 +334,9 @@ public class VideoButtonPanel extends JPanel{
 			video.mute(false);
 			video.pause();
 			video.play();
-			
+			if(video.isPlaying()){
+				play.setIcon(playIcon);
+			}
 		}
 		
 	}
