@@ -38,11 +38,11 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 		if(outputPath != null ){
 			dialog.setVisible(true);
 			/*
-			 * user this one 
+			 * user this one */
 			cmd = "ffmpeg -i \"" + videoFileName + "\" -i \"" + audioFileName
-			+ "\" -filter_complex amix=inputs=2 " + outputPath;*/
-			cmd = "ffmpeg -i \"" + videoFileName + "\" -i \"" + audioFileName
-					+ "\" -strict -2 -filter_complex amix=inputs=2 " + "\""+outputPath+ "\"";
+			+ "\" -filter_complex amix=inputs=2 \"" + outputPath+ "\"";
+			/*cmd = "ffmpeg -i \"" + videoFileName + "\" -i \"" + audioFileName
+					+ "\" -strict -2 -filter_complex amix=inputs=2 " + "\""+outputPath+ "\"";*/
 			System.out.println(cmd);
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			try {

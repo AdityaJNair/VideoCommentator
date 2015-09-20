@@ -40,7 +40,7 @@ public class VideoButtonPanel extends JPanel{
 	private boolean fwd = false;
 	private boolean bak = false;
 	private boolean mouseClickedToScroller = false;
-	private Icon playIcon;
+	private final Icon playIcon;
 
 	/**
 	 * Creates a VideoButtonPanel.
@@ -48,13 +48,13 @@ public class VideoButtonPanel extends JPanel{
 	 */
 	public VideoButtonPanel(EmbeddedMediaPlayer emplayer) {
 		//icons from  - http://www.iconarchive.com/show/audio-video-outline-icons-by-danieledesantis.html
-		Icon audioIcon = new ImageIcon("audio-icon.png");
-		Icon muteIcon = new ImageIcon("audio-off-icon.png");
-		Icon forwardIcon = new ImageIcon("forward-icon.png");
-		Icon pauseIcon = new ImageIcon("pause-icon.png");
+		final Icon audioIcon = new ImageIcon("audio-icon.png");
+		final Icon muteIcon = new ImageIcon("audio-off-icon.png");
+		final Icon forwardIcon = new ImageIcon("forward-icon.png");
+		final Icon pauseIcon = new ImageIcon("pause-icon.png");
 		playIcon = new ImageIcon("play-icon.png");
-		Icon rewindIcon = new ImageIcon("rewind-icon.png");
-		Icon textIcon = new ImageIcon("text2speech-icon.png");
+		final Icon rewindIcon = new ImageIcon("rewind-icon.png");
+		final Icon textIcon = new ImageIcon("text2speech-icon.png");
 		video = emplayer;
 		rewind = new JButton(rewindIcon);
 		play = new JButton(playIcon);
