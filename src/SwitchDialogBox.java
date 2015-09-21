@@ -107,7 +107,7 @@ public class SwitchDialogBox implements ActionListener{
 					    "Merged File Saving Location",
 					    JOptionPane.OK_OPTION);
 				System.out.println(path);
-				SaveAs sa = new SaveAs();
+				SaveAs sa = new SaveAs("mp4", "Select output Video File Location");
 				String outputPath = sa.getSelectionPath();
 				CombineAudioVideo combine = new CombineAudioVideo(path, MainFrame.videoName,outputPath);
 				combine.execute();

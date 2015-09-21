@@ -2,23 +2,31 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /** 
  * SaveAs dialog box lets users choose the filename of output file.
- * Used to save mp4 files.
+ * Can be used to save any type of file.
  * @author Adi Nair, Priyankit Singh
  *
  */
 public class SaveAs extends JFrame {
 
 	JFileChooser fileChooser;
+	String extention;
+	FileNameExtensionFilter filter;
 
 	/**
 	 * Creates a new Save As dialog box.
+	 * @param extention - file extension for the output file.
+	 * @param title - Title of save as dialog
 	 */
-	SaveAs() {
+	SaveAs(String extention, String title) {
 		fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Select output File Location");
+		fileChooser.setDialogTitle(title);
+		this.extention = "." + extention;
+		filter = new FileNameExtensionFilter("Choose " + extention + " files", extention);
+		fileChooser.setFileFilter(filter);
 	}
 
 	/**
@@ -29,19 +37,47 @@ public class SaveAs extends JFrame {
 		int userSelection = fileChooser.showSaveDialog(this);
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 			File fileToSave = fileChooser.getSelectedFile();
-			File f = new File(fileToSave.getAbsolutePath() + ".mp4");
-			if (f.exists()) {
-				int count = 0;
-				while (f.exists()) {
-					count++;
-					f = new File(fileToSave.getAbsolutePath() + "(" + count
-							+ ")" + ".mp4");
+			String path = fileToSave.getAbsolutePath();
+			File f = new File(fileToSave.getAbsolutePath());
+			if(path.lastIndexOf(extention) == -1){
+				//case when extention does not exist so it looks like Desktop/asda or /asda.mp3
+				f = new File(path + extention);
+				if (f.exists()) {
+					int count = 0;
+					while (f.exists()) {
+						count++;
+						f = new File(path + "(" + count
+								+ ")" + extention);
+					}
+					return path + "(" + count + ")"
+							+ extention;
+				} else {
+					return path + extention;
 				}
-				return fileToSave.getAbsolutePath() + "(" + count + ")"
-						+ ".mp4";
 			} else {
-				return fileToSave.getAbsolutePath() + ".mp4";
+				
+				
+				//case when filename ends with .mp4
+				
+				if (f.exists()) {
+					
+					int count = 0;
+					while (f.exists()) {
+						count++;
+						path = path.substring(0,path.length()-4);
+						System.out.println(path + "(" + count + ")" + extention);
+						f = new File(path + "(" + count
+								+ ")" + extention);
+					}	
+					return path + "(" + count + ")"
+					+ extention;
+				} else {
+					return path + extention;
+				}
+				
+				
 			}
+
 
 		}
 		return null;

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JButton;
 import javax.swing.SwingWorker;
 
 /**
@@ -20,13 +21,15 @@ public class Festival extends SwingWorker<Void, Void> {
 	private ProcessBuilder builder;
 	private String cmd;
 	private Process process;
+	private JButton demonstrate;
 	
 	/**
 	 * Creates a Festival object.
 	 * @param string - The string to be converted to speech.
 	 */
-	Festival(String string) {
+	Festival(String string, JButton demo) {
 		this.string = string;
+		this.demonstrate = demo;
 	}
 
 	/**
@@ -53,10 +56,12 @@ public class Festival extends SwingWorker<Void, Void> {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		process.waitFor();
 		return null;
 	}
 	@Override
 	protected void done(){
+		demonstrate.setText("DEMONSTRATE");
 	}
 	/**
 	 * Cancels the speech.
@@ -79,7 +84,8 @@ public class Festival extends SwingWorker<Void, Void> {
 			String line = null;
 			try {
 				line = stdout.readLine();
-				Matcher match = Pattern.compile("\\((.*?)\\)").matcher(line.substring(line.lastIndexOf("play")));
+				System.out.println(line);
+				Matcher match = Pattern.compile("\\((.*?)\\)").matcher(line.substring(line.indexOf("play")));
 				match.find();
 				System.out.println(match.group(1));
 				int pid = Integer.parseInt(match.group(1));

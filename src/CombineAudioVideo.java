@@ -67,7 +67,6 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 			MainFrame.setVideo(merged);
 		} catch (Exception e){
 		}
-		// setVideo(path of output file)
 	}
 
 	/**

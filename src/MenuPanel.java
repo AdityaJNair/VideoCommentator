@@ -59,7 +59,7 @@ public class MenuPanel extends JMenuBar{
 		createFestivalMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				System.out.println("festival");
+				TextToAudioFrame t = new TextToAudioFrame();
 			}
 		});
 		featuresMenu.add(createFestivalMenuItem);
@@ -91,7 +91,7 @@ public class MenuPanel extends JMenuBar{
 						    "Select the location where you want to save the merged file",
 						    "Merged File Saving Location",
 						    JOptionPane.OK_OPTION);
-					SaveAs sa = new SaveAs();
+					SaveAs sa = new SaveAs("mp4", "Select output Video File Location");
 					String outputPath = sa.getSelectionPath();
 					CombineAudioVideo combine = new CombineAudioVideo(path, MainFrame.videoName,outputPath);
 					combine.execute();

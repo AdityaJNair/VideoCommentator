@@ -46,6 +46,7 @@ public class TextToAudioFrame {
 		frame.setResizable(false);
 		frame.setSize(909, 402);
 		frame.setLocationRelativeTo(null);
+		frame.setTitle("Create Festival Speech");
 		// frame.setBounds(500, 500, 909, 402);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setVisible(true);
@@ -61,7 +62,7 @@ public class TextToAudioFrame {
 		scrollPane.setViewportView(textPane);
 
 		JLabel lblNewLabel = new JLabel(
-				"Enter Commentary: must be 160 characters (roughly 20 - 30 words)");
+				"Enter Commentary: must be 160 characters (or up to 30 words) and no special characters like !?;%$");
 		lblNewLabel.setBounds(12, 0, 749, 27);
 		frame.getContentPane().add(lblNewLabel);
 
@@ -80,7 +81,7 @@ public class TextToAudioFrame {
 						    JOptionPane.OK_OPTION);
 					FileChooser fc = new FileChooser("Video files", "mp4", "avi");
 					File videoFile = fc.chooseFile();
-					MainFrame.setVideo(videoFile);
+					MainFrame.setVideo(videoFile);					
 				}
 				if(MainFrame.videoName != null){
 					if (textFromUser.trim().length() == 0){
@@ -88,9 +89,16 @@ public class TextToAudioFrame {
 							    "You have not entered any text in the text field",
 							    "Warning",
 							    JOptionPane.WARNING_MESSAGE);
-					} else if ( textFromUser.length() <= 160 && stringList.length < 25) {
-						CreateAudioFile audio = new CreateAudioFile(textFromUser, "FestivalAudio");
+					} else if ( textFromUser.length() <= 160 && stringList.length < 30) {
+						JOptionPane.showMessageDialog(null,
+							    "Select the location where you want to save the festival audio file",
+							    "Festival File Saving Location",
+							    JOptionPane.OK_OPTION);
+						SaveAs sa = new SaveAs("wav", "Select output Audio File Location");
+						String path = sa.getSelectionPath();
+						CreateAudioFile audio = new CreateAudioFile(textFromUser, path);
 						audio.execute();
+						frame.dispose();
 					} else{
 						JOptionPane.showMessageDialog(frame,
 							    "Too much text !",
@@ -111,10 +119,10 @@ public class TextToAudioFrame {
 				// the new line is a character
 				String textFromUser = textPane.getText();
 				String[] stringList = textPane.getText().split(" ");
-				if ( textFromUser.length() <= 160 && stringList.length < 25 ) {
+				if ( textFromUser.length() <= 160 && stringList.length < 31 ) {
 					if (buttonDemonstrate.getText().equals("DEMONSTRATE")) {
 						buttonDemonstrate.setText("CANCEL");
-						test = new Festival(textFromUser);
+						test = new Festival(textFromUser, buttonDemonstrate);
 						test.execute();
 					} else {
 						buttonDemonstrate.setText("DEMONSTRATE");

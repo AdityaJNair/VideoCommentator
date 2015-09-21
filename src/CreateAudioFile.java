@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 /**
@@ -20,6 +21,7 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	private String cmd;
 	private Process process;
 	private String fileName;
+	private String textFileName;
 	private JDialog dialog;
 
 	/**
@@ -30,13 +32,15 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	CreateAudioFile(String comment, String fileName) {
 		this.comment = comment;
 		this.fileName = fileName;
-		createFile(fileName + ".txt");
+		this.textFileName = fileName.substring(0,fileName.length() - 4) + ".txt";
+		createFile(textFileName);
 	}
-	
+
 	/**
 	 * Creates a text file from the comment.
 	 * @param fileName.txt
 	 */
+
 	private void createFile(String fileName){
 		File file = new File(fileName);
 		try {
@@ -48,12 +52,12 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected Void doInBackground() throws Exception {
 		try {
 			createDialog();
-			cmd = "text2wave " + fileName + ".txt" +" -o " + fileName + ".wav";
+			cmd = "text2wave \"" + textFileName +"\" -o \"" + fileName + "\"";
 			System.out.println(cmd);
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			process = builder.start();
@@ -63,14 +67,18 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void done(){
 		dialog.setVisible(false);
 		String videoName = MainFrame.videoName;
-		SaveAs sa = new SaveAs();
+		JOptionPane.showMessageDialog(null,
+			    "Select the location where you want to save the merged file",
+			    "Merged File Saving Location",
+			    JOptionPane.OK_OPTION);
+		SaveAs sa = new SaveAs("mp4", "Select output File Video Location");
 		String outputPath = sa.getSelectionPath();
-		CombineAudioVideo combine = new CombineAudioVideo(fileName + ".wav",videoName,outputPath);
+		CombineAudioVideo combine = new CombineAudioVideo(fileName,videoName,outputPath);
 		combine.execute();
 	}
 
