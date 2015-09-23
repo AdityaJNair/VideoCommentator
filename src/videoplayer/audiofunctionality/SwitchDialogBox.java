@@ -42,12 +42,10 @@ public class SwitchDialogBox implements ActionListener{
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, fall back to cross-platform
 			try {
 				UIManager.setLookAndFeel(UIManager
 						.getCrossPlatformLookAndFeelClassName());
 			} catch (Exception ex) {
-				// not worth my time
 			}
 		}
 		frame = new JFrame();
@@ -89,7 +87,9 @@ public class SwitchDialogBox implements ActionListener{
 	//Action for the buttons, in the switch dialog box
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//This is for the existing audio, in which user adds audio from an existing audio file
 		if(e.getSource() == addExistingAudioButton){
+			//Check video existing or not
 			if(MainFrame.videoName == null){
 				JOptionPane.showMessageDialog(null,
 					    "Please select a valid video file before continuing",
@@ -99,6 +99,7 @@ public class SwitchDialogBox implements ActionListener{
 				File videoFile = fc.chooseFile();
 				MainFrame.setVideo(videoFile);
 			}
+			//Add audio file from filesystem
 			if(MainFrame.videoName != null){
 				JOptionPane.showMessageDialog(null,
 					    "Please select a audio file to add on the video you selected",
@@ -112,7 +113,7 @@ public class SwitchDialogBox implements ActionListener{
 					    "Select the location where you want to save the merged file",
 					    "Merged File Saving Location",
 					    JOptionPane.OK_OPTION);
-				System.out.println(path);
+				//Save to a path by a user (the merged file)
 				SaveAs sa = new SaveAs("mp4", "Select output Video File Location");
 				String outputPath = sa.getSelectionPath();
 				CombineAudioVideo combine = new CombineAudioVideo(path, MainFrame.videoName,outputPath);
@@ -123,6 +124,7 @@ public class SwitchDialogBox implements ActionListener{
 				frame.dispose();
 			}
 		}else if( e.getSource() == audioTextButton){
+			//Opens a new frame that allows the user to add audio commentary from a text file.
 			TextToAudioFrame t = new TextToAudioFrame();
 			frame.dispose();
 		}

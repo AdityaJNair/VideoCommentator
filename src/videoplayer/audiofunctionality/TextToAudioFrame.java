@@ -44,12 +44,10 @@ public class TextToAudioFrame {
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, fall back to cross-platform
 			try {
 				UIManager.setLookAndFeel(UIManager
 						.getCrossPlatformLookAndFeelClassName());
 			} catch (Exception ex) {
-				// not worth my time
 			}
 		}
 		frame = new JFrame();
@@ -57,7 +55,6 @@ public class TextToAudioFrame {
 		frame.setSize(909, 402);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("Create Festival Speech");
-		// frame.setBounds(500, 500, 909, 402);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.getContentPane().setLayout(null);
@@ -81,6 +78,8 @@ public class TextToAudioFrame {
 		frame.getContentPane().add(btnSaveButton);
 		
 		// Action listeners for Save button.
+		//Saves the text from the user to a wav file that is saved to a place told by user,
+		//Then saves the merged file to another location .mp4 (video merged file)
 		btnSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +120,7 @@ public class TextToAudioFrame {
 			}
 		});
 
+		//LIMITING TO 160 CHARACTERS and up to 30 WORDS
 		final JButton buttonDemonstrate = new JButton("DEMONSTRATE");
 		buttonDemonstrate.setBounds(761, 178, 130, 177);
 		frame.getContentPane().add(buttonDemonstrate);
