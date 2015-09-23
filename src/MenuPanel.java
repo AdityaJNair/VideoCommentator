@@ -9,19 +9,24 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
- * A menu bar that lets users navigate the program.
+ * A menu bar that lets users navigate the program from one place.
+ * Contains important functions like open file and exit.
  * @author Adi Nair, Priyankit Singh
  *
  */
 public class MenuPanel extends JMenuBar{
 	
 	/**
-	 * Creates a MenuPanel object.
+	 * Creates a MenuPanel object. These are the menubars for the program that holds functionality and allows access that is otherwise done
+	 * by the Buttons.
 	 */
 	public MenuPanel(){
+		
+		//The media panel which contains Open File, Add Audio and Quit
 		JMenu mediaMenu = new JMenu("Media");
 		this.add(mediaMenu);
 		
+		//Opens a video file to be played on the video player
 		JMenuItem openFileMenuItem = new JMenuItem("Open File");
 		openFileMenuItem.addActionListener(new ActionListener(){
 			@Override
@@ -34,6 +39,7 @@ public class MenuPanel extends JMenuBar{
 		});
 		mediaMenu.add(openFileMenuItem);
 		
+		//Adds audio to the file either form existing or text by user.
 		JMenuItem addAudioMenuItem = new JMenuItem("Add Audio");
 		addAudioMenuItem.addActionListener(new ActionListener(){
 			@Override
@@ -43,6 +49,7 @@ public class MenuPanel extends JMenuBar{
 		});
 		mediaMenu.add(addAudioMenuItem);
 		
+		//Quits the program
 		JMenuItem quitMenuItem = new JMenuItem("Quit");
 		quitMenuItem.addActionListener(new ActionListener(){
 			@Override
@@ -52,9 +59,11 @@ public class MenuPanel extends JMenuBar{
 		});
 		mediaMenu.add(quitMenuItem);
 		
+		//Feature menubar that has - Create Festival Speech, Add Existing audio
 		JMenu featuresMenu = new JMenu("Features");
 		this.add(featuresMenu);
 		
+		//Add text by the user that will be used to overlay on the video
 		JMenuItem createFestivalMenuItem = new JMenuItem("Create Festival Speech");
 		createFestivalMenuItem.addActionListener(new ActionListener(){
 			@Override
@@ -64,6 +73,7 @@ public class MenuPanel extends JMenuBar{
 		});
 		featuresMenu.add(createFestivalMenuItem);
 		
+		//Add existing audio to overlap current video
 		JMenuItem addExistingAudioMenuItem = new JMenuItem("Add Existing Audio");
 		addExistingAudioMenuItem.addActionListener(new ActionListener(){
 			@Override
@@ -103,6 +113,7 @@ public class MenuPanel extends JMenuBar{
 		});
 		featuresMenu.add(addExistingAudioMenuItem);
 		
+		//The Help to access README
 		JMenu subtitlesMenu = new JMenu("Help");
 		this.add(subtitlesMenu);
 		

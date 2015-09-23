@@ -55,10 +55,7 @@ public class SaveAs extends JFrame {
 					return path + extention;
 				}
 			} else {
-				
-				
 				//case when filename ends with .mp4
-				
 				if (f.exists()) {
 					
 					int count = 0;
@@ -73,12 +70,8 @@ public class SaveAs extends JFrame {
 					+ extention;
 				} else {
 					return path + extention;
-				}
-				
-				
+				}			
 			}
-
-
 		}
 		return null;
 	}

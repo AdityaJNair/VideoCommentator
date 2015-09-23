@@ -23,9 +23,14 @@ public class TextToAudioFrame {
 	public Festival test;
 
 	/**
-	 * Creates a TextToAudioFrame object.
+	 * Creates a TextToAudioFrame object. Creates the frame for adding audio comments to the video selected by the user.
+	 * Contains a text field and two buttons that lets users to add text commentary to a video file.
+	 * Buttons : 
+	 * Demonstrate - Demonstrates the text by playing it to the users and allows the user to cancel the audio
+	 * Save - saves the text in the text box as an audio file and overlays it on the video.
 	 */
 	public TextToAudioFrame() {
+		// Source : http://stackoverflow.com/questions/4617615/how-to-set-nimbus-look-and-feel-in-main
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -62,13 +67,15 @@ public class TextToAudioFrame {
 		scrollPane.setViewportView(textPane);
 
 		JLabel lblNewLabel = new JLabel(
-				"Enter Commentary: must be 160 characters (or up to 30 words) and no special characters like !?;%$");
+				"Enter Commentary: must be 160 characters (or up to 30 words).");
 		lblNewLabel.setBounds(12, 0, 749, 27);
 		frame.getContentPane().add(lblNewLabel);
 
 		JButton btnSaveButton = new JButton("SAVE");
 		btnSaveButton.setBounds(761, 0, 130, 177);
 		frame.getContentPane().add(btnSaveButton);
+		
+		// Action listeners for Save button.
 		btnSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,7 +113,6 @@ public class TextToAudioFrame {
 							    JOptionPane.WARNING_MESSAGE);
 					}
 				}
-				
 			}
 		});
 
@@ -134,7 +140,6 @@ public class TextToAudioFrame {
 						    "Warning",
 						    JOptionPane.WARNING_MESSAGE);
 				}
-
 			}
 		});
 

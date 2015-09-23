@@ -24,7 +24,7 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 /**
  * Panel containing video controls like Play, Pause, Volume controls and a Video Progress bar.
- * @author pb tech
+ * @author Adi Nair, Priyankit Singh
  *
  */
 public class VideoButtonPanel extends JPanel{
@@ -43,7 +43,7 @@ public class VideoButtonPanel extends JPanel{
 	private final Icon playIcon;
 
 	/**
-	 * Creates a VideoButtonPanel.
+	 * Creates a VideoButtonPanel. - Contains the buttons and labels in the video player and includes all of their action listeners.
 	 * @param em - The video to be controlled by the panel.
 	 */
 	public VideoButtonPanel(EmbeddedMediaPlayer emplayer) {
@@ -66,6 +66,11 @@ public class VideoButtonPanel extends JPanel{
 		JLabel minLABEL = new JLabel("MIN");
 		JLabel maxLABEL = new JLabel("MAX");
 		timeLabel = new JLabel("HH:MM:SS");
+		
+		play.setToolTipText("Play/Pause");
+		addAudioButton.setToolTipText("Audio/Text to Audio Button");
+		rewind.setToolTipText("Rewind");
+		fastForward.setToolTipText("Fast Forward");
 		
 		videoScroll.putClientProperty( "Slider.paintThumbArrowShape", Boolean.TRUE );
 		minLABEL.setEnabled(false);
@@ -208,7 +213,7 @@ public class VideoButtonPanel extends JPanel{
 		t.start();
 			
 
-		//auto window builder generated code
+		//auto window builder generated code -- From windowbuilder that just sets the layout and positioning of the buttons
 		GroupLayout gl_buttonPanel = new GroupLayout(this);
 		gl_buttonPanel.setHorizontalGroup(gl_buttonPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_buttonPanel.createSequentialGroup()
 			.addContainerGap().addGroup(gl_buttonPanel.createParallelGroup(Alignment.TRAILING,false).addGroup(
@@ -244,7 +249,7 @@ public class VideoButtonPanel extends JPanel{
 	}
 
 	/**
-	 * Controls time elements like progress bar and video length label.
+	 * For the process, sets time for the VideoPlayer and str for JLabel to set time
 	 *
 	 */
 	class TimeScroller{
@@ -255,7 +260,10 @@ public class VideoButtonPanel extends JPanel{
 			this.str = s;
 		}
 	}
-	
+	/**
+	 * Sets the time for the JLabel and JSlider in a background thread 
+	 *
+	 */
 	class TimerWorker extends SwingWorker<Void,TimeScroller>{
 
 		@Override
@@ -289,7 +297,7 @@ public class VideoButtonPanel extends JPanel{
 	}
 	
 	/**
-	 * Controls the video progress controls like fast forward, rewind and pause
+	 * Controls the video forward and rewind
 	 *
 	 */
 	class ProgressBarWorker extends SwingWorker<Void, Void>{

@@ -17,7 +17,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 
 /**
- * The main frame that contains the video player.
+ * The main frame that contains the video panel and the video controls.
  * @author Adi Nair, Priyankit Singh
  *
  */
@@ -32,6 +32,7 @@ public class MainFrame {
     public static String videoName = null;
 
 	public static void main(String[] args) {
+		// Source : http://stackoverflow.com/questions/4617615/how-to-set-nimbus-look-and-feel-in-main
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -68,14 +69,14 @@ public class MainFrame {
 	}
 
 	/**
-	 * Creates a new MainFrame object.
+	 * Creates a new MainFrame object. Uses the initialize method to create a MainFrame object.
 	 */
 	public MainFrame() {
 		initialize();
 	}
 
 	/**
-	 * Initializes the Frame
+	 * Initializes the Frame by creating a new frame and adding video panel, menu bar and video controls to it.
 	 */
 	private void initialize() {
 		frame = new JFrame();
