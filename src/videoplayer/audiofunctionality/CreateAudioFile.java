@@ -3,6 +3,8 @@ package videoplayer.audiofunctionality;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,6 +29,7 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	private String fileName;
 	private String textFileName;
 	private JDialog dialog;
+	private File file;
 
 	/**
 	 * Creates a new CreateAudioFile object
@@ -45,7 +48,7 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	 * @param fileName.txt
 	 */
 	private void createFile(String fileName){
-		File file = new File(fileName);
+		file = new File(fileName);
 		try {
 			FileWriter fileWriter = new FileWriter(file);
 			fileWriter.write(this.comment);
@@ -82,6 +85,7 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	@Override
 	protected void done(){
 		dialog.setVisible(false);
+		file.delete();
 		String videoName = MainFrame.videoName;
 		JOptionPane.showMessageDialog(null,
 			    "Select the location where you want to save the merged file",

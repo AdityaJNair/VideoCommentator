@@ -8,14 +8,18 @@ It is assumed that user is running on linux, has FFMPEG, Festival and VLC instal
 GUI COMPONENTS
 
 MenuBar - top left of GUI
-	=> Media
-		Open File : Opens a file selected by the user. This should be of a video type file. It is expected that the user knows whether this is a correct format type video like avi, mp4 etc.
-		Add audio : Adds audio component to the current selected video being played, either by festival speech synthesis (user writes text) or by an existing audio file.
-		Quit      : Quits the program
-	=> Features
-		Create Festival Speech : Creates audio overlap using text specified by the user. Add Existing Audio : Adds audio overlap using an existing audio file.	
-	=> Help
-		README : Access this file for additional help during use of this video player.
+
+Media
+Open File : Opens a file selected by the user. This should be of a video type file. It is expected that the user knows whether this is a correct format type video like avi, mp4 etc.
+Add audio : Adds audio component to the current selected video being played, either by festival speech synthesis (user writes text) or by an existing audio file.
+Quit      : Quits the program
+
+Features
+Create Festival Speech : Creates audio overlap using text specified by the user. Add Existing Audio : Adds audio overlap using an existing audio file.	
+Add existing audio     : Adds existing audio over the selected video file.
+
+Help
+README : Access this file for additional help during use of this video player.
 **========================================================================================================================================================================================================**
 BUTTONS AND SLIDERS
 

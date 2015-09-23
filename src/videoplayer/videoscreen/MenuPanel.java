@@ -2,8 +2,12 @@ package videoplayer.videoscreen;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -129,7 +133,26 @@ public class MenuPanel extends JMenuBar{
 		addSubMenuItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				ProcessBuilder pb = new ProcessBuilder("gedit", "README");
+				BufferedReader txtReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("README")));
+				String path = System.getProperty("user.dir")+System.getProperty("file.separator")+"README.txt";
+				File subReadMe = new File(path);
+				subReadMe.canWrite();
+				String line = null;
+				try {
+					if(!subReadMe.exists()){
+						FileWriter fileWriter = new FileWriter(path,true);
+						while ((line = txtReader.readLine()) != null){
+							if(subReadMe.exists()){
+								fileWriter.write(line+System.getProperty("line.separator"));
+							}
+						}
+						fileWriter.close();	
+					}
+				} catch (Exception e3) {
+				}
+		
+				subReadMe.setReadOnly();
+				ProcessBuilder pb = new ProcessBuilder("gedit",path);
 				try {
 					pb.start();
 				} catch (IOException e1) {

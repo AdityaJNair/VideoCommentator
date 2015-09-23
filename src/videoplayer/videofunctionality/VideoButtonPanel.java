@@ -54,14 +54,28 @@ public class VideoButtonPanel extends JPanel{
 	 * @param em - The video to be controlled by the panel.
 	 */
 	public VideoButtonPanel(EmbeddedMediaPlayer emplayer) {
+		
 		//icons from  - http://www.iconarchive.com/show/audio-video-outline-icons-by-danieledesantis.html
-		final Icon audioIcon = new ImageIcon("Icons/audio-icon.png");
-		final Icon muteIcon = new ImageIcon("Icons/audio-off-icon.png");
-		final Icon forwardIcon = new ImageIcon("Icons/forward-icon.png");
-		final Icon pauseIcon = new ImageIcon("Icons/pause-icon.png");
-		playIcon = new ImageIcon("Icons/play-icon.png");
-		final Icon rewindIcon = new ImageIcon("Icons/rewind-icon.png");
-		final Icon textIcon = new ImageIcon("Icons/text2speech-icon.png");
+		java.net.URL imgURL = VideoButtonPanel.class.getResource("audio-icon.png");
+		final Icon audioIcon = new ImageIcon(imgURL);
+		
+		imgURL = VideoButtonPanel.class.getResource("audio-off-icon.png");
+		final Icon muteIcon = new ImageIcon(imgURL);
+				
+		imgURL = VideoButtonPanel.class.getResource("forward-icon.png");
+		final Icon forwardIcon = new ImageIcon(imgURL);
+		
+		imgURL = VideoButtonPanel.class.getResource("pause-icon.png");
+		final Icon pauseIcon = new ImageIcon(imgURL);
+		
+		imgURL = VideoButtonPanel.class.getResource("play-icon.png");
+		playIcon = new ImageIcon(imgURL);
+		
+		imgURL = VideoButtonPanel.class.getResource("rewind-icon.png");
+		final Icon rewindIcon = new ImageIcon(imgURL);
+		
+		imgURL = VideoButtonPanel.class.getResource("text2speech-icon.png");
+		final Icon textIcon = new ImageIcon(imgURL);
 		
 		//Initialising the buttons/important components for the videoplayer
 		video = emplayer;
@@ -266,6 +280,7 @@ public class VideoButtonPanel extends JPanel{
 		//Sets the above layout for the pannel that holds all of the buttons.
 		this.setLayout(gl_buttonPanel);
 	}
+
 
 	/**
 	 * For the process, sets time for the VideoPlayer and str for JLabel to set time

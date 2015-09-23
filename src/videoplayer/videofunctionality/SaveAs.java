@@ -63,7 +63,6 @@ public class SaveAs extends JFrame {
 					while (f.exists()) {
 						count++;
 						path = path.substring(0,path.length()-4);
-						System.out.println(path + "(" + count + ")" + extention);
 						f = new File(path + "(" + count
 								+ ")" + extention);
 					}	
