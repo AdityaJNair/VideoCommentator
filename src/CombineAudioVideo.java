@@ -3,6 +3,7 @@ import java.io.File;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 /**
@@ -61,6 +62,17 @@ public class CombineAudioVideo extends SwingWorker<Void, Void> {
 	@Override
 	protected void done() {
 		dialog.setVisible(false);
+		try{
+			if(process.exitValue() != 0){
+				JOptionPane.showMessageDialog(null,
+					    "Please try again and ensure your video and audio files are of the correct format",
+					    "Operation failed",
+					    JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		} catch (Exception e){
+			
+		}
 		//shows file when done
 		try{
 			File merged = new File(outputPath);
