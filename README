@@ -1,0 +1,47 @@
+VIDEO PLAYER
+Authors and Creators : Aditya Nair and Priyankit Singh
+
+GUI COMPONENTS
+MenuBar - top left of GUI
+	=> Media
+		Open File : Opens a file selected by the user. This should be of a 
+		            video type file. It is expected that the user knows whether this is a
+			    correct format type video like avi, mp4 etc.
+		Add audio : Adds audio component to the current selected video being played, either
+			    by festival speech synthesis (user writes text) or by an existing audio file.
+		Quit      : Quits the program
+	=> Features
+		Create Festival Speech : Creates audio overlap using text specified by the uesr.
+		Add Existing Audio : Adds audio overlap using an existing audio file.	
+	=> Help
+		README : Access this file for additional help during use of this video player.
+
+Slider - Allows user to move to certain section of the video. Precision movement requires holding
+	 down the slider and moving to the section wanted. Or select any distance to move a fixed distance
+         from the screen.
+Play   - Plays/Pauses the video depending on its status
+
+Rewind - Rewinds video
+Forward - Forwards the video
+Mute Button - mutes audio
+Volume Slider - Set volume of the video player
+Audio/Text to audio Button (the button with the file and speaker icon) - Allows user to select either adding
+	  a audio overlay by either an existing audio or by text.
+
+How to use:
+Select a valid video type file to be playable in the video player. 
+Select the Audio/Text to Audio button to either have text added commentary to the current playing video, or have an existing audio file being overlaid onto the video. 
+Select these files from the users filesystem. 
+Save the merged file to the specified location.	
+		
+FAQ/NOTES
+If a invalid video/audio format is added to the player, the player will not recognise the format and may/maynot
+play the video file. 
+
+If this video/audio file is added to the Audio/Text to audio button and the user wants to merge and error message will be shown. It is assumed that the user knows the files they are giving us are the correct format that is able to be used by this player.
+
+There is a limit for the amount of words you can enter for the text to audio function. The limit is 30 words or a character limit of 160 (similar to a tweet). This is to ensure that festival the speech synthesiser does not start to fall of in pitch. 
+
+For the text to audio text field, do not enter special characters such as *&^$#
+Punctuation like , .  is allowed.
+
