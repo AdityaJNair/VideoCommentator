@@ -43,7 +43,3 @@ There is a slight delay on when the audio from text demonstrate will stop when p
 If this video/audio file is added to the Audio/Text to audio button and the user wants to merge and error message will be shown. It is assumed that the user knows the files they are giving us are the correct format that is able to be used by this player.
 
 There is a limit for the amount of words you can enter for the text to audio function. The limit is 30 words or a character limit of 160 (similar to a tweet). This is to ensure that festival the speech synthesiser does not start to fall of in pitch. 
-
-For the text to audio text field, do not enter special characters such as *&^$#
-Punctuation like , .  is allowed.
-
