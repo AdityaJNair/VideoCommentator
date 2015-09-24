@@ -1,15 +1,21 @@
+package videoplayer.audiofunctionality;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
+import videoplayer.videofunctionality.SaveAs;
+import videoplayer.videoscreen.MainFrame;
+
 /**
  * CreateAudioFile creates a wav audio file from text provided by the user.
- * Also creates a text file from the text. 
+ * Also creates a text file from the text which is used to create the audio file by festival.
  * @author Adi Nair, Priyankit Singh
  *
  */
@@ -23,6 +29,7 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	private String fileName;
 	private String textFileName;
 	private JDialog dialog;
+	private File file;
 
 	/**
 	 * Creates a new CreateAudioFile object
@@ -37,12 +44,11 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 	}
 
 	/**
-	 * Creates a text file from the comment.
+	 * Creates a text file from the comment. The text file is used to create the audio file by festival.
 	 * @param fileName.txt
 	 */
-
 	private void createFile(String fileName){
-		File file = new File(fileName);
+		file = new File(fileName);
 		try {
 			FileWriter fileWriter = new FileWriter(file);
 			fileWriter.write(this.comment);
@@ -53,12 +59,16 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 		}
 	}
 
+	/**
+	 * This method uses festival to create an audio file from the text provided by the user.
+	 * Overrides the doInBACKGROUNG function of SwingWorker to execute the process in background. 
+	 */
 	@Override
 	protected Void doInBackground() throws Exception {
+		createDialog();
 		try {
-			createDialog();
+			dialog.setVisible(true);
 			cmd = "text2wave \"" + textFileName +"\" -o \"" + fileName + "\"";
-			System.out.println(cmd);
 			builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 			process = builder.start();
 			process.waitFor();
@@ -68,9 +78,14 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 		return null;
 	}
 
+	/**
+	 * This method use CombineAudioVideo class to combine the audio file created by this class to the video selected by the user.
+	 * It creates a save as dialog to get the location of merged file. Overrides the done method in the event dispatch thread.
+	 */
 	@Override
 	protected void done(){
 		dialog.setVisible(false);
+		file.delete();
 		String videoName = MainFrame.videoName;
 		JOptionPane.showMessageDialog(null,
 			    "Select the location where you want to save the merged file",
@@ -84,6 +99,7 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 
 	/**
 	 * Creates a dialog box to ask the users to wait for the process to finish.
+	 * NOTE : This does not make the dialog box visible and setVisible method has to be invoked to make it visible.
 	 */
 	protected void createDialog() {
 		dialog = new JDialog();
@@ -93,6 +109,6 @@ public class CreateAudioFile extends SwingWorker<Void, Void> {
 		dialog.setLocationRelativeTo(null);
 		dialog.setTitle("Please Wait...");
 		dialog.add(label);
-		dialog.setVisible(true);
+		dialog.setVisible(false);
 	}
 }

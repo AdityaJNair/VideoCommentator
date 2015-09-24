@@ -1,3 +1,5 @@
+package videoplayer.videoscreen;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -12,12 +14,13 @@ import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+import videoplayer.videofunctionality.VideoButtonPanel;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 
 /**
- * The main frame that contains the video player.
+ * The main frame that contains the video panel and the video controls.
  * @author Adi Nair, Priyankit Singh
  *
  */
@@ -32,6 +35,7 @@ public class MainFrame {
     public static String videoName = null;
 
 	public static void main(String[] args) {
+		// Source : http://stackoverflow.com/questions/4617615/how-to-set-nimbus-look-and-feel-in-main
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -40,7 +44,6 @@ public class MainFrame {
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, fall back to cross-platform
 			try {
 				UIManager.setLookAndFeel(UIManager
 						.getCrossPlatformLookAndFeelClassName());
@@ -68,14 +71,14 @@ public class MainFrame {
 	}
 
 	/**
-	 * Creates a new MainFrame object.
+	 * Creates a new MainFrame object. Uses the initialize method to create a MainFrame object.
 	 */
 	public MainFrame() {
 		initialize();
 	}
 
 	/**
-	 * Initializes the Frame
+	 * Initializes the Frame by creating a new frame and adding video panel, menu bar and video controls to it.
 	 */
 	private void initialize() {
 		frame = new JFrame();

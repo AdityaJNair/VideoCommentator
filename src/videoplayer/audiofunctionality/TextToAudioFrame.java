@@ -1,3 +1,4 @@
+package videoplayer.audiofunctionality;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,10 @@ import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import videoplayer.videofunctionality.FileChooser;
+import videoplayer.videofunctionality.SaveAs;
+import videoplayer.videoscreen.MainFrame;
+
 /**
  * Frame that lets users create text comments, demonstrate them and add them to a video.
  * @author Adi Nair, Priyankit Singh
@@ -23,9 +28,14 @@ public class TextToAudioFrame {
 	public Festival test;
 
 	/**
-	 * Creates a TextToAudioFrame object.
+	 * Creates a TextToAudioFrame object. Creates the frame for adding audio comments to the video selected by the user.
+	 * Contains a text field and two buttons that lets users to add text commentary to a video file.
+	 * Buttons : 
+	 * Demonstrate - Demonstrates the text by playing it to the users and allows the user to cancel the audio
+	 * Save - saves the text in the text box as an audio file and overlays it on the video.
 	 */
 	public TextToAudioFrame() {
+		// Source : http://stackoverflow.com/questions/4617615/how-to-set-nimbus-look-and-feel-in-main
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -34,12 +44,10 @@ public class TextToAudioFrame {
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, fall back to cross-platform
 			try {
 				UIManager.setLookAndFeel(UIManager
 						.getCrossPlatformLookAndFeelClassName());
 			} catch (Exception ex) {
-				// not worth my time
 			}
 		}
 		frame = new JFrame();
@@ -47,7 +55,6 @@ public class TextToAudioFrame {
 		frame.setSize(909, 402);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("Create Festival Speech");
-		// frame.setBounds(500, 500, 909, 402);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setVisible(true);
 		frame.getContentPane().setLayout(null);
@@ -62,13 +69,17 @@ public class TextToAudioFrame {
 		scrollPane.setViewportView(textPane);
 
 		JLabel lblNewLabel = new JLabel(
-				"Enter Commentary: must be 160 characters (or up to 30 words) and no special characters like !?;%$");
+				"Enter Commentary: must be 160 characters (or up to 30 words).");
 		lblNewLabel.setBounds(12, 0, 749, 27);
 		frame.getContentPane().add(lblNewLabel);
 
 		JButton btnSaveButton = new JButton("SAVE");
 		btnSaveButton.setBounds(761, 0, 130, 177);
 		frame.getContentPane().add(btnSaveButton);
+		
+		// Action listeners for Save button.
+		//Saves the text from the user to a wav file that is saved to a place told by user,
+		//Then saves the merged file to another location .mp4 (video merged file)
 		btnSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,10 +117,10 @@ public class TextToAudioFrame {
 							    JOptionPane.WARNING_MESSAGE);
 					}
 				}
-				
 			}
 		});
 
+		//LIMITING TO 160 CHARACTERS and up to 30 WORDS
 		final JButton buttonDemonstrate = new JButton("DEMONSTRATE");
 		buttonDemonstrate.setBounds(761, 178, 130, 177);
 		frame.getContentPane().add(buttonDemonstrate);
@@ -134,7 +145,6 @@ public class TextToAudioFrame {
 						    "Warning",
 						    JOptionPane.WARNING_MESSAGE);
 				}
-
 			}
 		});
 

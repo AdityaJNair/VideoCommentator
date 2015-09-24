@@ -1,3 +1,4 @@
+package videoplayer.videofunctionality;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -6,7 +7,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Creates a window that lets users to select a file from their system.
- * @author pb tech
+ * @author Adi Nair, Priyankit Singh
  *
  */
 public class FileChooser {
@@ -29,7 +30,7 @@ public class FileChooser {
 	 * @param extention1
 	 * @param extension2
 	 */
-	FileChooser(String description, String extention1, String extension2) {
+	public FileChooser(String description, String extention1, String extension2) {
 		chooser = new JFileChooser();
 		filter = new FileNameExtensionFilter(description, extention1, extension2);
 		chooser.setFileFilter(filter);
@@ -65,12 +66,11 @@ public class FileChooser {
 
 	/**
 	 * Displays a file chooser window and gets the user Choice.
+	 * Returns null if file not found.
 	 */
 	public File chooseFile() {
 		int returnVal = chooser.showOpenDialog(new JPanel());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			System.out.println("You chose to open this file: "
-					+ chooser.getSelectedFile().getName());
 			return (chooser.getSelectedFile());
 		} else {
 			return null;

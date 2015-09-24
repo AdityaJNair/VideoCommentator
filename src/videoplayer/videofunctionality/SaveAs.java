@@ -1,3 +1,4 @@
+package videoplayer.videofunctionality;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -21,7 +22,7 @@ public class SaveAs extends JFrame {
 	 * @param extention - file extension for the output file.
 	 * @param title - Title of save as dialog
 	 */
-	SaveAs(String extention, String title) {
+	public SaveAs(String extention, String title) {
 		fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle(title);
 		this.extention = "." + extention;
@@ -55,17 +56,13 @@ public class SaveAs extends JFrame {
 					return path + extention;
 				}
 			} else {
-				
-				
 				//case when filename ends with .mp4
-				
 				if (f.exists()) {
 					
 					int count = 0;
 					while (f.exists()) {
 						count++;
 						path = path.substring(0,path.length()-4);
-						System.out.println(path + "(" + count + ")" + extention);
 						f = new File(path + "(" + count
 								+ ")" + extention);
 					}	
@@ -73,12 +70,8 @@ public class SaveAs extends JFrame {
 					+ extention;
 				} else {
 					return path + extention;
-				}
-				
-				
+				}			
 			}
-
-
 		}
 		return null;
 	}
